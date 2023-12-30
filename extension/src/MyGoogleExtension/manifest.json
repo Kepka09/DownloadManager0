@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Gossip P2P Extension",
+  "version": "1.0",
+  "description": "Connect and interact within a P2P network using gossip protocol.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "connect.html",
+    "default_icon": "images/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  }
+}

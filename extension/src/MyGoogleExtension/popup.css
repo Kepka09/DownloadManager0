@@ -1,0 +1,11 @@
+/* popup.css */
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
+
+button {
+    margin-top: 5px;
+    padding: 5px 10px;
+}
