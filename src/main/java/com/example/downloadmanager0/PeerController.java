@@ -16,18 +16,36 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller class for managing peer-to-peer file sharing operations.
+ * Handles HTTP requests related to connecting with peers, managing files,
+ * including adding, retrieving, updating, and deleting files.
+ */
 @RestContrler
 @RequestMapping("/peer")
+
 public class PeerController {
 
     private Logger logger = Logger.getLogger(PeerController.class.getName());
 
     private Peer currentPeer;
 
+    /**
+     * Constructs a PeerController with a given Peer instance.
+     *
+     * @param peer The current Peer instance to be managed by this controller.
+     */
+
     public PeerController(Peer peer) {
         currentPeer = peer;
     }
 
+    /**
+     * Connects to a set of peer addresses and updates the known peers list.
+     *
+     * @param addresses A set of peer addresses to connect to.
+     * @return A ResponseEntity containing the updated set of known peers.
+     */
     @PostMapping("/connect")
     public ResponseEntity<Set<String>> connect(@RequestBody Set<String> addresses) {
         Set<String> currentKnownPeers = currentPeer.getKnownPeers();
@@ -37,13 +55,27 @@ public class PeerController {
         return new ResponseEntity<>(currentKnownPeers, HttpStatus.OK);
     }
 
-
+    /**
+     * Adds a file to the current peer.
+     *
+     * @param file The file path.
+     * @param fileName The name of the file to be added.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
     @PostMapping("/files{file}")
     public ResponseEntity<String> addFile(@PathVariable String file, @RequestBody String fileName) {
         //TODO add file to current peer
         return new ResponseEntity<>("File added successfully", HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a file from the current peer.
+     *
+     * @param filePath The path of the file to be retrieved.
+     * @param chunkSize The size of each chunk to be downloaded.
+     * @param delay The delay between each chunk download.
+     * @return A ResponseEntity containing the file resource.
+     */
     @GetMapping("/files{file}")
     public ResponseEntity<Resource> getFiles(
             @RequestParam String filePath,
@@ -81,6 +113,13 @@ public class PeerController {
         }
     }
 
+    /**
+     * Updates the name of a file on the current peer.
+     *
+     * @param oldName The current name of the file.
+     * @param newName The new name for the file.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
         @PutMapping("/files/{address}")
         public ResponseEntity<String> updateFile(@RequestParam String oldName,
                 @RequestParam String newName){
@@ -89,7 +128,12 @@ public class PeerController {
             return new ResponseEntity<>("File added successfully", HttpStatus.OK);
         }
 
-
+    /**
+     * Deletes a file from the current peer.
+     *
+     * @param fileName The name of the file to be deleted.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
         @DeleteMapping("/files/{address}")
         public ResponseEntity<String> deleteFile (@RequestParam String fileName){
             //TODO тут типа файл  из списка файлов currentPeer
